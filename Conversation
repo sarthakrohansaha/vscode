@@ -1,0 +1,92 @@
+{
+  "name": "Conversation",
+  "type": "object",
+  "properties": {
+    "participants": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "User IDs of participants"
+    },
+    "participant_names": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Full names of participants"
+    },
+    "participant_photos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Profile photos of participants"
+    },
+    "last_message": {
+      "type": "string",
+      "description": "Preview of last message"
+    },
+    "last_message_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_message_sender": {
+      "type": "string",
+      "description": "User ID of last message sender"
+    },
+    "unread_count": {
+      "type": "object",
+      "description": "Unread count per user"
+    },
+    "is_group": {
+      "type": "boolean",
+      "default": false
+    },
+    "group_name": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "participants"
+  ],
+  "rls": {
+    "create": {
+      "data.participants": {
+        "$in": [
+          "{{user.email}}"
+        ]
+      }
+    },
+    "read": {
+      "data.participants": {
+        "$in": [
+          "{{user.email}}"
+        ]
+      }
+    },
+    "update": {
+      "data.participants": {
+        "$in": [
+          "{{user.email}}"
+        ]
+      }
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.participants": {
+            "$in": [
+              "{{user.email}}"
+            ]
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

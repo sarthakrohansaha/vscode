@@ -1,0 +1,152 @@
+{
+  "name": "PatientCase",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Case title"
+    },
+    "patient_age": {
+      "type": "number",
+      "description": "Patient age (anonymized)"
+    },
+    "patient_gender": {
+      "type": "string",
+      "enum": [
+        "Male",
+        "Female",
+        "Other",
+        "Not Specified"
+      ]
+    },
+    "chief_complaint": {
+      "type": "string",
+      "description": "Main presenting complaint"
+    },
+    "history": {
+      "type": "string",
+      "description": "Relevant medical history"
+    },
+    "examination_findings": {
+      "type": "string",
+      "description": "Clinical examination findings"
+    },
+    "investigations": {
+      "type": "string",
+      "description": "Lab results, imaging, etc."
+    },
+    "current_treatment": {
+      "type": "string",
+      "description": "Current treatment regimen"
+    },
+    "question": {
+      "type": "string",
+      "description": "What help is needed?"
+    },
+    "specialty_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Relevant specialties"
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "URLs to anonymized images/files"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "resolved",
+        "closed"
+      ],
+      "default": "open"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "public",
+        "specialty_only",
+        "private"
+      ],
+      "default": "public"
+    },
+    "poster_name": {
+      "type": "string",
+      "description": "Full name of poster"
+    },
+    "poster_photo": {
+      "type": "string"
+    },
+    "poster_specialty": {
+      "type": "string"
+    },
+    "poster_qualifications": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "discussion_count": {
+      "type": "number",
+      "default": 0
+    },
+    "helpful_count": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "title",
+    "chief_complaint",
+    "question"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "data.visibility": "public"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "name": "MedicalEvent",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Event title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Event description"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "Conference",
+        "Workshop",
+        "Seminar",
+        "CME",
+        "Webinar",
+        "Meetup",
+        "Training",
+        "Other"
+      ]
+    },
+    "specialties": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Relevant specialties"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "time": {
+      "type": "string"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "location_city": {
+      "type": "string"
+    },
+    "location_country": {
+      "type": "string"
+    },
+    "venue": {
+      "type": "string"
+    },
+    "is_online": {
+      "type": "boolean",
+      "default": false
+    },
+    "online_link": {
+      "type": "string"
+    },
+    "registration_link": {
+      "type": "string"
+    },
+    "is_free": {
+      "type": "boolean",
+      "default": false
+    },
+    "price": {
+      "type": "string"
+    },
+    "organizer": {
+      "type": "string"
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "attendees": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "User IDs of attendees"
+    },
+    "interested": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "User IDs who marked interested"
+    }
+  },
+  "required": [
+    "title",
+    "event_type",
+    "date"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {},
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "data.attendees": {
+            "$in": [
+              "{{user.email}}"
+            ]
+          }
+        },
+        {
+          "data.interested": {
+            "$in": [
+              "{{user.email}}"
+            ]
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

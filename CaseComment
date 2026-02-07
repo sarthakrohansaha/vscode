@@ -1,0 +1,89 @@
+{
+  "name": "CaseComment",
+  "type": "object",
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "description": "ID of the patient case"
+    },
+    "commenter_id": {
+      "type": "string"
+    },
+    "commenter_name": {
+      "type": "string",
+      "description": "Full name of commenter"
+    },
+    "commenter_specialty": {
+      "type": "string"
+    },
+    "commenter_qualifications": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of degree abbreviations"
+    },
+    "commenter_photo": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string",
+      "description": "Comment content"
+    },
+    "is_treatment_suggestion": {
+      "type": "boolean",
+      "default": false
+    },
+    "likes": {
+      "type": "number",
+      "default": 0
+    },
+    "dislikes": {
+      "type": "number",
+      "default": 0
+    },
+    "liked_by": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "disliked_by": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "replies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "user_name": {
+            "type": "string"
+          },
+          "user_photo": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Replies to this comment"
+    }
+  },
+  "required": [
+    "case_id",
+    "content"
+  ]
+}

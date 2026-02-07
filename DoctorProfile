@@ -1,0 +1,156 @@
+{
+  "name": "DoctorProfile",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string",
+      "description": "Doctor's full name"
+    },
+    "profile_photo": {
+      "type": "string",
+      "description": "Profile photo URL"
+    },
+    "specialty": {
+      "type": "string",
+      "enum": [
+        "General Medicine",
+        "Cardiology",
+        "Neurology",
+        "Pediatrics",
+        "Orthopedics",
+        "Dermatology",
+        "Psychiatry",
+        "Radiology",
+        "Surgery",
+        "Emergency Medicine",
+        "Oncology",
+        "Gynecology",
+        "Ophthalmology",
+        "ENT",
+        "Anesthesiology",
+        "Other"
+      ],
+      "description": "Medical specialty"
+    },
+    "sub_specialty": {
+      "type": "string",
+      "description": "Sub-specialty or area of interest"
+    },
+    "qualifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "degree": {
+            "type": "string"
+          },
+          "institution": {
+            "type": "string"
+          },
+          "year": {
+            "type": "number"
+          }
+        }
+      },
+      "description": "List of degrees and qualifications"
+    },
+    "registration_number": {
+      "type": "string",
+      "description": "Medical registration/license number"
+    },
+    "location_city": {
+      "type": "string",
+      "description": "City of practice"
+    },
+    "location_country": {
+      "type": "string",
+      "description": "Country of practice"
+    },
+    "years_experience": {
+      "type": "number",
+      "description": "Years since graduation"
+    },
+    "institution_name": {
+      "type": "string",
+      "description": "Current institution/hospital name"
+    },
+    "institution_type": {
+      "type": "string",
+      "enum": [
+        "Government Hospital",
+        "Private Hospital",
+        "Clinic",
+        "Medical College",
+        "Research Institute",
+        "Other"
+      ],
+      "description": "Type of institution"
+    },
+    "bio": {
+      "type": "string",
+      "description": "Professional bio"
+    },
+    "interests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Medical interests and topics"
+    },
+    "is_verified": {
+      "type": "boolean",
+      "default": false,
+      "description": "Verified medical professional"
+    },
+    "online_status": {
+      "type": "string",
+      "enum": [
+        "online",
+        "offline",
+        "busy"
+      ],
+      "default": "offline"
+    },
+    "last_seen": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "response_count": {
+      "type": "number",
+      "default": 0,
+      "description": "Total number of responses/comments made"
+    },
+    "helpful_votes_received": {
+      "type": "number",
+      "default": 0,
+      "description": "Total helpful votes received on comments"
+    }
+  },
+  "required": [
+    "full_name",
+    "specialty",
+    "location_city",
+    "location_country"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {},
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
